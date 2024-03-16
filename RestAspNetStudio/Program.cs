@@ -27,7 +27,8 @@ builder.Services.AddApiVersioning();
 
 builder.Services.AddScoped<IUserLogic, UserLogicImplementation>();
 builder.Services.AddScoped<IUserData, UserDataImplementation>();
-
+builder.Services.AddScoped<IHotelLogic, HotelLogicImplementation>();
+builder.Services.AddScoped<IHotelData, HotelDataImplementation>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

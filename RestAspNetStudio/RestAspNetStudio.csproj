@@ -7,6 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="db\migrations\V1__Create_Table_Users - Cópia.sql" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Asp.Versioning.Mvc" Version="8.0.0" />
     <PackageReference Include="Evolve" Version="3.2.0" />
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.1" />
@@ -16,7 +20,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="db\migrations\" />
     <Folder Include="db\dataset\" />
   </ItemGroup>
 
