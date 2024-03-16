@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
+using RestAspNetStudio.Data.Generic;
 using RestAspNetStudio.Data;
 using RestAspNetStudio.Model;
 using RestAspNetStudio.Model.Context;
@@ -7,9 +8,9 @@ namespace RestAspNetStudio.Logic.Implementations
 {
     public class HotelLogicImplementation : IHotelLogic
     {       
-       private readonly IHotelData _data;
+       private readonly IGenericData<Hotel> _data;
 
-        public HotelLogicImplementation(IHotelData data){ _data = data;}
+        public HotelLogicImplementation(IGenericData<Hotel> data){ _data = data;}
         public Hotel Create(Hotel hotel)
         {
             

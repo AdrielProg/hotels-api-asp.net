@@ -1,12 +1,12 @@
 using RestAspNetStudio.Logic;
 using RestAspNetStudio.Logic.Implementations;
-using RestAspNetStudio.Data;
-using RestAspNetStudio.Data.Implementations;
+using RestAspNetStudio.Data.Generic;
 using RestAspNetStudio.Model.Context;
 using Microsoft.EntityFrameworkCore;
 using MySqlConnector;
 using EvolveDb;
 using Serilog;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -26,9 +26,9 @@ if(builder.Environment.IsDevelopment())
 builder.Services.AddApiVersioning();
 
 builder.Services.AddScoped<IUserLogic, UserLogicImplementation>();
-builder.Services.AddScoped<IUserData, UserDataImplementation>();
 builder.Services.AddScoped<IHotelLogic, HotelLogicImplementation>();
-builder.Services.AddScoped<IHotelData, HotelDataImplementation>();
+builder.Services.AddScoped(typeof(IGenericData<>), typeof(GenericDataImplementation<>));
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

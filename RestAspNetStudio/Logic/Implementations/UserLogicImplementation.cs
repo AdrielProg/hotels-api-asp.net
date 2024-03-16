@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Query.SqlExpressions;
 using RestAspNetStudio.Data;
+using RestAspNetStudio.Data.Generic;
 using RestAspNetStudio.Model;
 using RestAspNetStudio.Model.Context;
 
@@ -7,9 +8,9 @@ namespace RestAspNetStudio.Logic.Implementations
 {
     public class UserLogicImplementation : IUserLogic
     {       
-       private readonly IUserData _data;
+       private readonly IGenericData<User> _data;
 
-        public UserLogicImplementation(IUserData data){ _data = data;}
+        public UserLogicImplementation(IGenericData<User> data){ _data = data;}
         public User Create(User user)
         {
             

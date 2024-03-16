@@ -1,13 +1,13 @@
 ﻿
 using System.ComponentModel.DataAnnotations.Schema;
+using RestAspNetStudio.Model.Base;
 
 namespace RestAspNetStudio.Model
 {
     [Table("hotels")]
-    public class Hotel
+    public class Hotel : BaseEntity
     {
-        [Column("id")]
-        public  long Id  { get; set; }
+
         [Column("name")]
         public string? Name { get; set; }
         [Column("adress")]
