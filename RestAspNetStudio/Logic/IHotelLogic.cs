@@ -4,10 +4,10 @@ namespace RestAspNetStudio.Logic
 {
     public interface IHotelLogic
     {
-        List<Hotel> FindAll();
-        Hotel FindById(long id);
-        Hotel Create(Hotel hotel);
-        Hotel Update(Hotel hotel);
+        List<HotelVO> FindAll();
+        HotelVO FindById(long id);
+        HotelVO Create(HotelVO hotel);
+        HotelVO Update(HotelVO hotel);
         void Delete(long id);
     }
 }

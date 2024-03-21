@@ -32,12 +32,12 @@ namespace RestAspNetStudio.Controllers
             return Ok(hotel);
         }
         [HttpPost]
-        public IActionResult Post([FromBody] Hotel hotel)
+        public IActionResult Post([FromBody] HotelVO hotel)
         {
             return Ok(_hotelLogic.Create(hotel));
         }
         [HttpPut]
-        public IActionResult Put([FromBody] Hotel hotel)
+        public IActionResult Put([FromBody] HotelVO hotel)
         {
             if (hotel == null) return BadRequest();
             return Ok(_hotelLogic.Update(hotel));

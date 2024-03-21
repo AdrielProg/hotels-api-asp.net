@@ -3,18 +3,26 @@ using RestAspNetStudio.Data.Generic;
 using RestAspNetStudio.Data;
 using RestAspNetStudio.Model;
 using RestAspNetStudio.Model.Context;
+using RestAspNetStudio.VObject.Converter.Implementations;
 
 namespace RestAspNetStudio.Logic.Implementations
 {
     public class HotelLogicImplementation : IHotelLogic
     {       
        private readonly IGenericData<Hotel> _data;
+        private readonly HotelConverter _converter;
 
-        public HotelLogicImplementation(IGenericData<Hotel> data){ _data = data;}
-        public Hotel Create(Hotel hotel)
+        public HotelLogicImplementation(IGenericData<Hotel> data)
         {
+            _data = data;
+            _converter = new HotelConverter();
+        }
+        public HotelVO Create(HotelVO hotel)
+        {
+            var hotelEntity = _converter.Convert(hotel);
+            hotelEntity = _data.Create(hotelEntity);
+            return _converter.Convert(hotelEntity);
             
-            return _data.Create(hotel);
         }
 
         public void Delete(long id)
@@ -22,20 +30,23 @@ namespace RestAspNetStudio.Logic.Implementations
            _data.Delete(id);
         }
 
-        public List<Hotel> FindAll()
+        public List<HotelVO> FindAll()
         {
-         return _data.FindAll();
+         return _converter.Convert(_data.FindAll()).ToList();
         }
 
-        public Hotel FindById(long id)
+        public HotelVO FindById(long id)
         {
             //returno do SingleOrDefault é o proprio objeto
-            return _data.FindById(id);   
+            return _converter.Convert(_data.FindById(id));   
         }
 
-        public Hotel Update(Hotel hotel)
+        public HotelVO Update(HotelVO hotel)
         {
-            return _data.Update(hotel);
+
+            var hotelEntity = _converter.Convert(hotel);
+            hotelEntity = _data.Update(hotelEntity);
+            return _converter.Convert(hotelEntity);
         }
 
     }
