@@ -34,14 +34,14 @@ namespace RestAspNetStudio.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post([FromBody] User user)
+        public IActionResult Post([FromBody] UserVO user)
         {
 
             return Ok(_userLogic.Create(user));
 
         }
         [HttpPut]
-        public IActionResult Put([FromBody] User user)
+        public IActionResult Put([FromBody] UserVO user)
         {
             if (user == null) return BadRequest();
             return Ok(_userLogic.Update(user));

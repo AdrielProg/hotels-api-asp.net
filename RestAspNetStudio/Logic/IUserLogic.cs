@@ -4,10 +4,10 @@ namespace RestAspNetStudio.Logic
 {
     public interface IUserLogic
     {
-        List<User> FindAll();
-        User FindById(long id);
-        User Create(User user);
-        User Update(User user);
+        List<UserVO> FindAll();
+        UserVO FindById(long id);
+        UserVO Create(UserVO user);
+        UserVO Update(UserVO user);
         void Delete(long id);
     }
 }
