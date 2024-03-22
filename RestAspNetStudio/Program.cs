@@ -24,9 +24,11 @@ if(builder.Environment.IsDevelopment())
 }
 
 builder.Services.AddApiVersioning();
+builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IUserLogic, UserLogicImplementation>();
 builder.Services.AddScoped<IHotelLogic, HotelLogicImplementation>();
+builder.Services.AddScoped<IRoomLogic, RoomLogicImplementation>();
 builder.Services.AddScoped(typeof(IGenericData<>), typeof(GenericDataImplementation<>));
 
 var app = builder.Build();

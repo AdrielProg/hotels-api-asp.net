@@ -9,5 +9,6 @@ namespace RestAspNetStudio.Logic
         HotelVO Create(HotelVO hotel);
         HotelVO Update(HotelVO hotel);
         void Delete(long id);
+       
     }
 }

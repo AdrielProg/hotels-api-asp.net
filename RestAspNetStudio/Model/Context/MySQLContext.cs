@@ -9,6 +9,7 @@ namespace RestAspNetStudio.Model.Context
 
         public DbSet<User> Users { get; set; }
         public DbSet<Hotel> Hotels { get; set; }
+        public DbSet<Room> Rooms { get; set; }
 
 
     }

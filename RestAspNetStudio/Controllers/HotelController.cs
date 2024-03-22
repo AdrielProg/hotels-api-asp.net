@@ -2,6 +2,7 @@ using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc;
 using RestAspNetStudio.Model;
 using RestAspNetStudio.Logic;
+using RestAspNetStudio.Logic.Implementations;
 
 namespace RestAspNetStudio.Controllers
 {
@@ -13,10 +14,12 @@ namespace RestAspNetStudio.Controllers
         
         private readonly ILogger<HotelController> _logger;
         private IHotelLogic _hotelLogic;
-        public HotelController(ILogger<HotelController> logger, IHotelLogic hotelLogic)
+        private IRoomLogic _roomLogic;
+        public HotelController(ILogger<HotelController> logger, IHotelLogic hotelLogic, IRoomLogic roomLogic)
         {
             _logger = logger;
             _hotelLogic = hotelLogic;
+            _roomLogic = roomLogic;
         }
 
         [HttpGet]
@@ -31,6 +34,26 @@ namespace RestAspNetStudio.Controllers
             if (hotel == null) return NotFound();
             return Ok(hotel);
         }
+        [HttpGet("{id}/rooms")]
+        public IActionResult GetHotelRooms(long id)
+        {
+            var hotel = _hotelLogic.FindById(id);
+            if (hotel == null)
+            {
+                _logger.LogInformation($"Hotel com ID {id} não encontrado.");
+                return NotFound("Hotel não encontrado.");
+            }
+
+            var rooms = _roomLogic.FindRoomsByHotelId(id);
+            if (rooms == null || rooms.Count == 0)
+            {
+                _logger.LogInformation($"Quartos para o hotel com ID {id} não encontrados.");
+                return NotFound("Quartos para este hotel não encontrados.");
+            }
+
+            return Ok(rooms);
+        }
+
         [HttpPost]
         public IActionResult Post([FromBody] HotelVO hotel)
         {
