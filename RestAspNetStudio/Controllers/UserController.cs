@@ -49,6 +49,8 @@ namespace RestAspNetStudio.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
+            var user = _userLogic.FindById(id);
+            if (user == null) return NotFound();
             _userLogic.Delete(id);
             return NoContent();
         }

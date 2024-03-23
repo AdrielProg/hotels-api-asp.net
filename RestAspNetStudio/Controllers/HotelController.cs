@@ -68,9 +68,10 @@ namespace RestAspNetStudio.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(long id)
         {
+            var hotel = _roomLogic.FindById(id);
+            if (hotel == null) return NotFound();
             _hotelLogic.Delete(id);
             return NoContent();
         }
-
     }
 }
