@@ -1,4 +1,4 @@
-INSERT INTO `rooms` (`hotel_id`, `room_number`, `capacity`, `description`, `photos`)
+INSERT INTO rooms (hotel_id, room_number, capacity, description, photos)
 VALUES
 (1, '101', 2, 'Quarto Standard com cama de casal', 'photo1.jpg'),
 (1, '102', 2, 'Quarto Standard com duas camas de solteiro', 'photo2.jpg'),

@@ -3,9 +3,9 @@ using RestAspNetStudio.Logic.Implementations;
 using RestAspNetStudio.Data.Generic;
 using RestAspNetStudio.Model.Context;
 using Microsoft.EntityFrameworkCore;
-using MySqlConnector;
 using EvolveDb;
 using Serilog;
+using Npgsql;
 using RestAspNet8VStudio.Logic.Implementations;
 using RestAspNet8VStudio.Logic;
 
@@ -15,12 +15,10 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
-var connection = builder.Configuration["MySQLConnection:MySQLConnectionString"];
-builder.Services.AddDbContext<MySQLContext>(options => options.UseMySql(
-    connection, 
-    new MySqlServerVersion(new Version(8,0,36))));
+var connection = builder.Configuration.GetConnectionString("PostgreSQLConnectionString");
+builder.Services.AddDbContext<MySQLContext>(options => options.UseNpgsql(connection));
 
-if(builder.Environment.IsDevelopment())
+if (builder.Environment.IsDevelopment())
 {
     MigrateDataBase(connection);
 }
@@ -63,11 +61,10 @@ void MigrateDataBase(string connection)
 {
     try
     {
-        var evolveConnection = new MySqlConnection(connection);
-        var evolve = new Evolve(evolveConnection,
-            msg => Log.Information(msg))
+        var evolveConnection = new NpgsqlConnection(connection); // Certifique-se de usar NpgsqlConnection
+        var evolve = new Evolve(evolveConnection, msg => Log.Information(msg))
         {
-            Locations = new List<string>() { "db/migrations", "db/dataset" },
+            Locations = new List<string> { "db/migrations", "db/dataset" },
             IsEraseDisabled = true,
         };
         evolve.Migrate();

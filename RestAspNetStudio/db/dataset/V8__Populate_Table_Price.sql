@@ -1,4 +1,5 @@
-INSERT INTO `prices`(`room_id`, `start_date`, `end_date`, `amount`, `currency`) VALUES
+INSERT INTO prices (room_id, start_date, end_date, amount, currency) 
+VALUES
 (1, '2024-01-01', '2024-01-15', 320.00, 'RS$'),
 (1, '2024-01-16', '2024-02-01', 350.00, 'RS$'),
 (2, '2024-01-01', '2024-01-15', 320.00, 'RS$'),
