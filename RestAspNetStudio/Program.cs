@@ -8,6 +8,7 @@ using Serilog;
 using Npgsql;
 using RestAspNet8VStudio.Logic.Implementations;
 using RestAspNet8VStudio.Logic;
+using Microsoft.OpenApi.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,7 +25,19 @@ if (builder.Environment.IsDevelopment())
 }
 
 builder.Services.AddApiVersioning();
-builder.Services.AddSwaggerGen();
+builder.Services.AddSwaggerGen(c =>
+{
+    c.SwaggerDoc("v1",
+                 new OpenApiInfo {
+                     Title = "REST API",
+                     Version = "v1",
+                     Description = "API developer by Adriel Alexander at XPE",
+                    Contact = new OpenApiContact
+                    {
+                        Url = new Uri("https://adriel.streamlit.app/")
+                    }
+                 });
+});
 
 builder.Services.AddScoped<IUserLogic, UserLogicImplementation>();
 builder.Services.AddScoped<IHotelLogic, HotelLogicImplementation>();
@@ -49,7 +62,15 @@ var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 app.UseCors("MyPolicy");
+
 app.UseHttpsRedirection();
+
+app.UseSwagger();
+
+app.UseSwaggerUI(c =>{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json",
+                      "API developer by Adriel Alexander at XPE");
+});
 
 app.UseAuthorization();
 
