@@ -8,7 +8,7 @@ namespace RestAspNetStudio.Logic.Implementations
     public class HotelLogicImplementation : IHotelLogic
     {       
        private readonly IGenericData<Hotel> _data;
-        private readonly HotelConverter _converter;
+       private readonly HotelConverter _converter;
 
         public HotelLogicImplementation(IGenericData<Hotel> data)
         {

@@ -9,15 +9,16 @@ using Npgsql;
 using RestAspNet8VStudio.Logic.Implementations;
 using RestAspNet8VStudio.Logic;
 using Microsoft.OpenApi.Models;
-
+using RestAspNetStudio.Model.Mappings;
+using Dapper.FluentMap;
+using RestAspNet8VStudio.Model.Mappings;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers();
 
 var connection = builder.Configuration.GetConnectionString("PostgreSQLConnectionString");
-builder.Services.AddDbContext<MySQLContext>(options => options.UseNpgsql(connection));
+builder.Services.AddSingleton<DapperContext>();
 
 if (builder.Environment.IsDevelopment())
 {
@@ -28,14 +29,15 @@ builder.Services.AddApiVersioning();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1",
-                 new OpenApiInfo {
+                 new OpenApiInfo
+                 {
                      Title = "REST API",
                      Version = "v1",
                      Description = "API developer by Adriel Alexander at XPE",
-                    Contact = new OpenApiContact
-                    {
-                        Url = new Uri("https://adriel.streamlit.app/")
-                    }
+                     Contact = new OpenApiContact
+                     {
+                         Url = new Uri("https://adriel.streamlit.app/")
+                     }
                  });
 });
 
@@ -48,26 +50,34 @@ builder.Services.AddScoped(typeof(IGenericData<>), typeof(GenericDataImplementat
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name : "MyPolicy",
+    options.AddPolicy(name: "MyPolicy",
         policy =>
         {
             policy
-                .WithOrigins("http://127.0.0.1:5500") 
+                .WithOrigins("http://127.0.0.1:5500")
                 .AllowAnyMethod()
                 .AllowAnyHeader();
         });
 });
 
+FluentMapper.Initialize(config =>
+{
+    config.AddMap(new UserMap());
+    config.AddMap(new HotelMap());
+    config.AddMap(new PriceMap());
+    config.AddMap(new ReservationMap());
+    config.AddMap(new RoomMap());
+});
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 app.UseCors("MyPolicy");
 
 app.UseHttpsRedirection();
 
 app.UseSwagger();
 
-app.UseSwaggerUI(c =>{
+app.UseSwaggerUI(c => {
     c.SwaggerEndpoint("/swagger/v1/swagger.json",
                       "API developer by Adriel Alexander at XPE");
 });
@@ -82,7 +92,7 @@ void MigrateDataBase(string connection)
 {
     try
     {
-        var evolveConnection = new NpgsqlConnection(connection); // Certifique-se de usar NpgsqlConnection
+        var evolveConnection = new NpgsqlConnection(connection);
         var evolve = new Evolve(evolveConnection, msg => Log.Information(msg))
         {
             Locations = new List<string> { "db/migrations", "db/dataset" },
@@ -96,5 +106,3 @@ void MigrateDataBase(string connection)
         throw;
     }
 }
-
-
